@@ -7,6 +7,39 @@ import { Routes } from "@config/routes";
 import { ProjectLanguage, ProjectStatus } from "@api/projects.types";
 import type { Project } from "@api/projects.types";
 
+export function ProjectCard({ project }: ProjectCardProps) {
+  const { name, language, numIssues, numEvents24h, status } = project;
+  return (
+    <Container>
+      <TopContainer>
+        <NameAndIconContainer>
+          <LanguageIcon src={`/icons/${language}.svg`} alt={language} />
+          <div>
+            <Name>{name}</Name>
+            <Language>{languageNames[language]}</Language>
+          </div>
+        </NameAndIconContainer>
+        <InfoContainer>
+          <Issues>
+            <IssuesTitle>Total issues</IssuesTitle>
+            <IssuesNumber>{numIssues}</IssuesNumber>
+          </Issues>
+          <Issues>
+            <IssuesTitle>Last 24h</IssuesTitle>
+            <IssuesNumber>{numEvents24h}</IssuesNumber>
+          </Issues>
+          <Status>
+            <Badge color={statusColors[status]}>{capitalize(status)}</Badge>
+          </Status>
+        </InfoContainer>
+      </TopContainer>
+      <BottomContainer>
+        <ViewIssuesAnchor href={Routes.issues}>View issues</ViewIssuesAnchor>
+      </BottomContainer>
+    </Container>
+  );
+}
+
 type ProjectCardProps = {
   project: Project;
 };
@@ -39,7 +72,7 @@ const TopContainer = styled.div`
 
 const BottomContainer = styled.div`
   padding: ${space(4, 6)};
-  border-top: 3px solid ${color("gray", 200)};
+  border-top: 1px solid ${color("gray", 200)};
   display: flex;
   justify-content: flex-end;
 `;
@@ -100,36 +133,3 @@ const ViewIssuesAnchor = styled(Link)`
   text-decoration: none;
   ${textFont("sm", "medium")}
 `;
-
-export function ProjectCard({ project }: ProjectCardProps) {
-  const { name, language, numIssues, numEvents24h, status } = project;
-  return (
-    <Container>
-      <TopContainer>
-        <NameAndIconContainer>
-          <LanguageIcon src={`/icons/${language}.svg`} alt={language} />
-          <div>
-            <Name>{name}</Name>
-            <Language>{languageNames[language]}</Language>
-          </div>
-        </NameAndIconContainer>
-        <InfoContainer>
-          <Issues>
-            <IssuesTitle>Total issues</IssuesTitle>
-            <IssuesNumber>{numIssues}</IssuesNumber>
-          </Issues>
-          <Issues>
-            <IssuesTitle>Last 24h</IssuesTitle>
-            <IssuesNumber>{numEvents24h}</IssuesNumber>
-          </Issues>
-          <Status>
-            <Badge color={statusColors[status]}>{capitalize(status)}</Badge>
-          </Status>
-        </InfoContainer>
-      </TopContainer>
-      <BottomContainer>
-        <ViewIssuesAnchor href={Routes.issues}>View issues</ViewIssuesAnchor>
-      </BottomContainer>
-    </Container>
-  );
-}
