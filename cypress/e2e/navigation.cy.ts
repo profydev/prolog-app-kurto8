@@ -29,9 +29,7 @@ describe("Sidebar Navigation", () => {
       cy.get("nav")
         .contains("Settings")
         .should("have.attr", "href", "/dashboard/settings");
-    });
 
-    it("support button opens local email app", () => {
       cy.get("nav")
         .contains("Support")
         .should(
