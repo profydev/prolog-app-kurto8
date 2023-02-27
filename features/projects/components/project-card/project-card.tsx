@@ -9,6 +9,18 @@ import type { Project } from "@api/projects.types";
 
 export function ProjectCard({ project }: ProjectCardProps) {
   const { name, language, numIssues, numEvents24h, status } = project;
+
+  function getCorrectStatus(dataStatus: string) {
+    switch (dataStatus) {
+      case "error":
+        return ProjectStatus.critical;
+      case "info":
+        return ProjectStatus.stable;
+      default:
+        return ProjectStatus.warning;
+    }
+  }
+
   return (
     <Container>
       <TopContainer>
@@ -29,8 +41,11 @@ export function ProjectCard({ project }: ProjectCardProps) {
             <IssuesNumber>{numEvents24h}</IssuesNumber>
           </Issues>
           <Status>
-            <Badge color={statusColors[status]}>{capitalize(status)}</Badge>
+            <Badge color={statusColors[getCorrectStatus(status)]}>
+              {capitalize(getCorrectStatus(status))}
+            </Badge>
           </Status>
+          ()
         </InfoContainer>
       </TopContainer>
       <BottomContainer>
