@@ -4,22 +4,11 @@ import capitalize from "lodash/capitalize";
 import { Badge, BadgeColor } from "@features/ui";
 import { color, displayFont, space, textFont } from "@styles/theme";
 import { Routes } from "@config/routes";
-import { ProjectLanguage, ProjectStatus } from "@api/projects.types";
-import type { Project } from "@api/projects.types";
+import { ProjectStatus } from "@api/projects.types";
+import ProjectsDto from "@api/projectsViewModel";
 
 export function ProjectCard({ project }: ProjectCardProps) {
-  const { name, language, numIssues, numEvents24h, status } = project;
-
-  function getCorrectStatus(dataStatus: string) {
-    switch (dataStatus) {
-      case "error":
-        return ProjectStatus.critical;
-      case "info":
-        return ProjectStatus.stable;
-      default:
-        return ProjectStatus.warning;
-    }
-  }
+  const { name, language, numIssues, numEvents24h } = project;
 
   return (
     <Container>
@@ -28,7 +17,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           <LanguageIcon src={`/icons/${language}.svg`} alt={language} />
           <div>
             <Name>{name}</Name>
-            <Language>{languageNames[language]}</Language>
+            <Language>{project.getLanguageEnumValue()}</Language>
           </div>
         </NameAndIconContainer>
         <InfoContainer>
@@ -41,8 +30,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
             <IssuesNumber>{numEvents24h}</IssuesNumber>
           </Issues>
           <Status>
-            <Badge color={statusColors[getCorrectStatus(status)]}>
-              {capitalize(getCorrectStatus(status))}
+            <Badge color={statusColors[project.getStatusEnumValue()]}>
+              {capitalize(project.getStatusEnumValue())}
             </Badge>
           </Status>
           ()
@@ -56,13 +45,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 }
 
 type ProjectCardProps = {
-  project: Project;
-};
-
-const languageNames = {
-  [ProjectLanguage.react]: "React",
-  [ProjectLanguage.node]: "Node.js",
-  [ProjectLanguage.python]: "Python",
+  project: ProjectsDto;
 };
 
 const statusColors = {

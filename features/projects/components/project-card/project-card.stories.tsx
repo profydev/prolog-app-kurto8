@@ -23,10 +23,30 @@ Default.args = {
   project: {
     id: "xzy",
     name: "Frontend - Web",
-    language: ProjectLanguage.react,
+    language: "react",
     numIssues: 420,
     numEvents24h: 721,
-    status: ProjectStatus.critical,
+    status: "error",
+    getStatusEnumValue() {
+      switch (this.status) {
+        case "error":
+          return ProjectStatus.critical;
+        case "info":
+          return ProjectStatus.stable;
+        default:
+          return ProjectStatus.warning;
+      }
+    },
+    getLanguageEnumValue() {
+      switch (this.language) {
+        case ProjectLanguage.react:
+          return "React";
+        case ProjectLanguage.node:
+          return "Node.js";
+        case ProjectLanguage.python:
+          return "Python";
+      }
+    },
   },
 };
 Default.parameters = {
