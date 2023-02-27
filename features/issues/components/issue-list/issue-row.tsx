@@ -48,7 +48,8 @@ const ErrorType = styled.span`
 `;
 
 export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
-  const { name, message, stack, level, numEvents } = issue;
+  const { name, message, stack, level, numEvents, numUsers } = issue;
+
   const firstLineOfStackTrace = stack.split("\n")[1];
 
   return (
@@ -72,7 +73,7 @@ export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
         </Badge>
       </Cell>
       <Cell>{numEvents}</Cell>
-      <Cell>{numEvents}</Cell>
+      <Cell>{numUsers}</Cell>
     </Row>
   );
 }
