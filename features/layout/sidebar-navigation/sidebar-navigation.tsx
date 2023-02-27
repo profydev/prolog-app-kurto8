@@ -1,12 +1,14 @@
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
+import { useMediaQuery } from "react-responsive";
+import MediaQuery from "react-responsive";
 import styled, { css } from "styled-components";
 import { Routes } from "@config/routes";
 import { NavigationContext } from "./navigation-context";
 import { MenuItemButton } from "./menu-item-button";
 import { MenuItemLink } from "./menu-item-link";
 import { Button } from "@features/ui";
-import { breakpoint, color, space, zIndex } from "@styles/theme";
+import { breakpoint, color, space, theme, zIndex } from "@styles/theme";
 
 const menuItems = [
   { text: "Projects", iconSrc: "/icons/projects.svg", href: Routes.projects },
@@ -157,18 +159,27 @@ export function SidebarNavigation() {
   const router = useRouter();
   const { isSidebarCollapsed, toggleSidebar } = useContext(NavigationContext);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
     <Container isCollapsed={isSidebarCollapsed}>
       <FixedContainer>
         <Header>
-          <Logo
-            src={
-              isSidebarCollapsed
-                ? "/icons/logo-small.svg"
-                : "/icons/logo-large.svg"
+          <MediaQuery minWidth={theme.breakpoint.desktop}>
+            {(matches) =>
+              matches ? (
+                <Logo
+                  src={
+                    isSidebarCollapsed
+                      ? "/icons/logo-small.svg"
+                      : "/icons/logo-large.svg"
+                  }
+                  alt="logo"
+                />
+              ) : (
+                <Logo src="/icons/logo-large.svg" alt="logo" />
+              )
             }
-            alt="logo"
-          />
+          </MediaQuery>
           <MenuButton onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}>
             <MenuIcon
               src={isMobileMenuOpen ? "/icons/close.svg" : "/icons/menu.svg"}
