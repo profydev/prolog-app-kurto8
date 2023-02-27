@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
-import { useMediaQuery } from "react-responsive";
 import MediaQuery from "react-responsive";
 import styled, { css } from "styled-components";
 import { Routes } from "@config/routes";
