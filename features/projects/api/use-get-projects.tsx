@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getProjects } from "@api/projects";
-import type { Project } from "@api/projects.types";
+import ProjectsViewModel from "@api/projectsViewModel";
 
 export function useGetProjects() {
-  return useQuery<Project[], Error>(["projects"], getProjects);
+  return useQuery<ProjectsViewModel[], Error>(["projects"], getProjects);
 }
