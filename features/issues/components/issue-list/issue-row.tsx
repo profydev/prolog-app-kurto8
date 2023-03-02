@@ -2,12 +2,11 @@ import styled from "styled-components";
 import capitalize from "lodash/capitalize";
 import { color, space, textFont } from "@styles/theme";
 import { Badge, BadgeColor, BadgeSize } from "@features/ui";
-import { ProjectLanguage } from "@api/projects.types";
 import { IssueLevel } from "@api/issues.types";
 import type { Issue } from "@api/issues.types";
 
 type IssueRowProps = {
-  projectLanguage: ProjectLanguage;
+  projectLanguage: string;
   issue: Issue;
 };
 
@@ -48,7 +47,8 @@ const ErrorType = styled.span`
 `;
 
 export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
-  const { name, message, stack, level, numEvents } = issue;
+  const { name, message, stack, level, numEvents, numUsers } = issue;
+
   const firstLineOfStackTrace = stack.split("\n")[1];
 
   return (
@@ -72,7 +72,7 @@ export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
         </Badge>
       </Cell>
       <Cell>{numEvents}</Cell>
-      <Cell>{numEvents}</Cell>
+      <Cell>{numUsers}</Cell>
     </Row>
   );
 }

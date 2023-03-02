@@ -13,8 +13,8 @@ export enum ProjectStatus {
 export type Project = {
   id: string;
   name: string;
-  language: ProjectLanguage;
+  language: string;
   numIssues: number;
   numEvents24h: number;
-  status: ProjectStatus;
+  status: string;
 };

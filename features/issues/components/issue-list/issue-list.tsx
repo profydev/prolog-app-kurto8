@@ -93,7 +93,7 @@ export function IssueList() {
       ...prev,
       [project.id]: project.language,
     }),
-    {} as Record<string, ProjectLanguage>
+    {} as Record<string, string>
   );
   const { items, meta } = issuesPage.data || {};
 
