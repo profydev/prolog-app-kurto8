@@ -2,15 +2,7 @@ import React from "react";
 import Head from "next/head";
 import styled from "styled-components";
 import { SidebarNavigation } from "../sidebar-navigation";
-import {
-  color,
-  displayFont,
-  textFont,
-  space,
-  breakpoint,
-  theme,
-} from "@styles/theme";
-import MediaQuery from "react-responsive";
+import { color, displayFont, textFont, space, breakpoint } from "@styles/theme";
 import packageJson from "package.json";
 
 type PageContainerProps = {
