@@ -148,6 +148,8 @@ export const theme = {
   },
   size: {
     headerHeight: "4rem",
+    footerHeight: "177px",
+    desktopFooterHeight: "60px",
   },
   breakpoint: {
     desktop: "64em",

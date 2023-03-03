@@ -5,10 +5,12 @@ import { Badge, BadgeColor } from "@features/ui";
 import { color, displayFont, space, textFont } from "@styles/theme";
 import { Routes } from "@config/routes";
 import { ProjectStatus } from "@api/projects.types";
-import ProjectsDto from "@api/projectsViewModel";
+import { Project } from "@api/projects.types";
+import ProjectsViewModel from "viewModals/projectsViewModel";
 
 export function ProjectCard({ project }: ProjectCardProps) {
   const { name, language, numIssues, numEvents24h } = project;
+  const viewModalProject = new ProjectsViewModel(project);
 
   return (
     <Container>
@@ -17,7 +19,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           <LanguageIcon src={`/icons/${language}.svg`} alt={language} />
           <div>
             <Name>{name}</Name>
-            <Language>{project.getLanguageEnumValue()}</Language>
+            <Language>{viewModalProject.getLanguageEnumValue()}</Language>
           </div>
         </NameAndIconContainer>
         <InfoContainer>
@@ -30,8 +32,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
             <IssuesNumber>{numEvents24h}</IssuesNumber>
           </Issues>
           <Status>
-            <Badge color={statusColors[project.getStatusEnumValue()]}>
-              {capitalize(project.getStatusEnumValue())}
+            <Badge color={statusColors[viewModalProject.getStatusEnumValue()]}>
+              {capitalize(viewModalProject.getStatusEnumValue())}
             </Badge>
           </Status>
           ()
@@ -45,7 +47,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 }
 
 type ProjectCardProps = {
-  project: ProjectsDto;
+  project: Project;
 };
 
 const statusColors = {
