@@ -1,4 +1,4 @@
-import { Project, ProjectStatus, ProjectLanguage } from "./projects.types";
+import { Project, ProjectStatus, ProjectLanguage } from "../api/projects.types";
 
 export default class ProjectsViewModel {
   public id: string;

@@ -28,7 +28,7 @@ const ContactButton = styled.button`
   }
 `;
 
-const IssuesPage = () => {
+const LandingPage = () => {
   return (
     <div>
       <Header>
@@ -50,4 +50,4 @@ const IssuesPage = () => {
   );
 };
 
-export default IssuesPage;
+export default LandingPage;
