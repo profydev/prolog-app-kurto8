@@ -2,27 +2,41 @@ import mockProjects from "../fixtures/projects.json";
 
 describe("Project List", () => {
   beforeEach(() => {
-    // setup request mock
-    cy.intercept("GET", "https://prolog-api.profy.dev/project", {
-      fixture: "projects.json",
-    }).as("getProjects");
-
     // open projects page
     cy.visit("http://localhost:3000/dashboard");
-
-    // verify loading spnner
-    cy.get('[data-cy="spinner"]').should("exist");
-
-    // wait for request to resolve
-    cy.wait("@getProjects");
   });
 
-  context("desktop resolution", () => {
+  it("renders a loading spinner while fetching data", () => {
+    cy.get('[data-cy="projects-loading-spinner"]').should("exist");
+  });
+
+  describe("unsuccesful fetching of data", () => {
     beforeEach(() => {
-      cy.viewport(1025, 900);
+      // setup request mocks
+      cy.intercept("GET", "https://prolog-api.profy.dev/project", {
+        forceNetworkError: true,
+      })
+        .as("getProjectsFailure")
+        .wait(4000);
+    });
+
+    it("renders a error message if data is not fetched succesfully", () => {
+      cy.wait("@getProjectsFailure");
+      cy.get('[data-cy="error-fetching-projects"]').should("exist");
+    });
+  });
+
+  describe("succesful fetching of data", () => {
+    beforeEach(() => {
+      // setup request mocks
+      cy.intercept("GET", "https://prolog-api.profy.dev/project", {
+        fixture: "projects.json",
+      }).as("getProjects");
     });
 
     it("renders the projects", () => {
+      cy.wait("@getProjects");
+
       const languageNames = ["React", "Node.js", "Python"];
       const errorDisplayValue = ["Critical", "Warning", "Stable"];
 
@@ -40,6 +54,12 @@ describe("Project List", () => {
             .find("a")
             .should("have.attr", "href", "/dashboard/issues");
         });
+    });
+  });
+
+  context("desktop resolution", () => {
+    beforeEach(() => {
+      cy.viewport(1025, 900);
     });
   });
 });
