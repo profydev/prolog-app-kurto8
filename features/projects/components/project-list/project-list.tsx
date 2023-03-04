@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { breakpoint, space } from "@styles/theme";
 import { ProjectCard } from "../project-card";
+import { Spinner } from "@features/ui";
 import { useGetProjects } from "../../api/use-get-projects";
 
 const List = styled.ul`
@@ -18,11 +19,26 @@ const List = styled.ul`
   }
 `;
 
+const SpinnerWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 9.5rem;
+
+  @media (min-width: ${breakpoint("desktop")}) {
+    padding-top: 8rem;
+  }
+`;
+
 export function ProjectList() {
   const { data, isLoading, isError, error } = useGetProjects();
 
   if (isLoading) {
-    return <div>Loading</div>;
+    return (
+      <SpinnerWrapper>
+        <Spinner data-cy="spinner" />
+      </SpinnerWrapper>
+    );
   }
 
   if (isError) {
