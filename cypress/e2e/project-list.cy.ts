@@ -1,4 +1,3 @@
-import capitalize from "lodash/capitalize";
 import mockProjects from "../fixtures/projects.json";
 
 describe("Project List", () => {
@@ -10,6 +9,9 @@ describe("Project List", () => {
 
     // open projects page
     cy.visit("http://localhost:3000/dashboard");
+
+    // verify loading spnner
+    cy.get('[data-cy="spinner"]').should("exist");
 
     // wait for request to resolve
     cy.wait("@getProjects");
