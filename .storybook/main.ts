@@ -27,6 +27,7 @@ module.exports = {
     config.resolve.alias["@features"] = path.resolve("./features");
     config.resolve.alias["@styles"] = path.resolve("./styles");
     config.resolve.alias["@typings"] = path.resolve("./typings");
+    config.resolve.alias["@viewModels"] = path.resolve("./viewModels");
     return config;
   },
 };
