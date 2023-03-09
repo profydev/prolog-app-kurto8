@@ -21,7 +21,7 @@
       "@features/*": ["features/*"],
       "@styles/*": ["styles/*"],
       "@typings/*": ["typings/*"],
-      "@viewModels/*": ["viewModels/*"],
+      "@viewModels/*": ["viewModels/*"]
     },
     "noEmit": true
   },
