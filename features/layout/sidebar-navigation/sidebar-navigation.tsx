@@ -6,7 +6,7 @@ import { Routes } from "@config/routes";
 import { NavigationContext } from "./navigation-context";
 import { MenuItemButton } from "./menu-item-button";
 import { MenuItemLink } from "./menu-item-link";
-import { Button } from "@features/ui";
+import { ProLogButton } from "@features/ui";
 import { breakpoint, color, space, theme, zIndex } from "@styles/theme";
 
 const menuItems = [
@@ -77,7 +77,7 @@ const Logo = styled.img`
   }
 `;
 
-const MenuButton = styled(Button)`
+const MenuButton = styled(ProLogButton)`
   @media (min-width: ${breakpoint("desktop")}) {
     display: none;
   }
