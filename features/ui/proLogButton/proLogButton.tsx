@@ -291,7 +291,9 @@ export function ProLogButton({
           <Icon src={iconSrc} alt={`${label} icon`} />
         )}
         {icon !== IconOptions.only && (
-          <Button onClick={onClick}>{label}</Button>
+          <Button onClick={onClick} aria-label={label}>
+            {label}
+          </Button>
         )}
         {icon !== IconOptions.only && icon === IconOptions.right && (
           <Icon src={iconSrc} alt={`${label} icon`} />
