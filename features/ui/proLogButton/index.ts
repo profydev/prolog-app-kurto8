@@ -1,1 +1,1 @@
-export { ProLogButton } from "./proLogButton";
+export { ProLogButton, ProLogAnchor } from "./proLogButton";

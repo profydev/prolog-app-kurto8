@@ -1,6 +1,11 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { ProLogButton, ButtonSize, ButtonVariant } from "./proLogButton";
+import {
+  ProLogButton,
+  ButtonSize,
+  ButtonVariant,
+  IconOptions,
+} from "./proLogButton";
 
 export default {
   title: "UI/ProLogButton",
@@ -12,28 +17,35 @@ export default {
 } as ComponentMeta<typeof ProLogButton>;
 
 const Template: ComponentStory<typeof ProLogButton> = ({
+  onClick,
+  label,
+  icon,
+  iconSrc,
   size,
   variant,
-  onClick,
   isDisabled,
 }) => (
   <div style={{ padding: 50 }}>
     <ProLogButton
+      onClick={onClick}
+      label={label}
+      icon={icon}
+      iconSrc={iconSrc}
       variant={variant}
       size={size}
-      onClick={onClick}
       isDisabled={isDisabled}
-    >
-      Label
-    </ProLogButton>
+    />
   </div>
 );
 
 export const Default = Template.bind({});
 Default.args = {
+  onClick: () => ({}),
+  label: "Alert",
+  icon: IconOptions.none,
+  iconSrc: "/icons/alert.svg",
   size: ButtonSize.sm,
   variant: ButtonVariant.primary,
-  onClick: () => ({ focus: true }),
   isDisabled: false,
 };
 Default.parameters = {

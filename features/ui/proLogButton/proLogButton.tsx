@@ -19,6 +19,13 @@ export enum ButtonVariant {
   error = "error",
 }
 
+export enum IconOptions {
+  none = "none",
+  left = "left",
+  right = "right",
+  only = "only",
+}
+
 const Container = styled.fieldset<{
   size: ButtonSize;
   variant: ButtonVariant;
@@ -30,6 +37,10 @@ const Container = styled.fieldset<{
   align-items: center;
   gap: ${space(2)};
   border-radius: ${space(2)};
+
+  &:disabled {
+    pointer-events: none;
+  }
 
   --box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
 
@@ -63,24 +74,24 @@ const Container = styled.fieldset<{
       case ButtonVariant.primary:
         return css`
           background: ${color(ButtonVariant.primary, 600)};
-          pointer-events: props => props.disabled ? none : auto;
           box-shadow: var(--box-shadow);
           border: 1px solid ${color(ButtonVariant.primary, 600)};
 
-          &>button, >a {
+          & > div > button,
+          > div > img,
+          > a {
             color: white;
-          } 
+          }
 
           &:hover {
             background: ${color(ButtonVariant.primary, 700)};
           }
 
           &:focus {
-            border: ${space(1)} solid ${color(ButtonVariant.primary, 100)}
+            border: ${space(1)} solid ${color(ButtonVariant.primary, 100)};
           }
 
           &:disabled {
-            pointer-events: none;
             background: ${color(ButtonVariant.primary, 200)};
             border: 1px solid ${color(ButtonVariant.primary, 200)};
           }
@@ -91,7 +102,8 @@ const Container = styled.fieldset<{
           box-shadow: var(--box-shadow);
           border: 1px solid ${color(ButtonVariant.primary, 50)};
 
-          & > button,
+          & > div > button,
+          > div > img,
           > a {
             color: ${color(ButtonVariant.primary, 700)};
           }
@@ -105,7 +117,6 @@ const Container = styled.fieldset<{
           }
 
           &:disabled {
-            pointer-events: none;
             background: ${color(ButtonVariant.primary, 25)};
             border: 1px solid ${color(ButtonVariant.primary, 25)};
           }
@@ -121,7 +132,8 @@ const Container = styled.fieldset<{
           box-shadow: var(--box-shadow);
           border: 1px solid ${color(ButtonVariant.gray, 300)};
 
-          & > button,
+          & > div > button,
+          > div > img,
           > a {
             color: ${color(ButtonVariant.gray, 700)};
           }
@@ -135,7 +147,6 @@ const Container = styled.fieldset<{
           }
 
           &:disabled {
-            pointer-events: none;
             background: white;
             border: 1px solid ${color(ButtonVariant.gray, 200)};
           }
@@ -150,7 +161,8 @@ const Container = styled.fieldset<{
           background: transparent;
           border: none;
 
-          & > button,
+          & > div > button,
+          > div > img,
           > a {
             color: ${color(ButtonVariant.primary, 700)};
           }
@@ -160,7 +172,6 @@ const Container = styled.fieldset<{
           }
 
           &:disabled {
-            pointer-events: none;
             background: transparent;
           }
 
@@ -174,7 +185,8 @@ const Container = styled.fieldset<{
           background: transparent;
           border: none;
 
-          & > button,
+          & > div > button,
+          > div > img,
           > a {
             color: ${color(ButtonVariant.gray, 500)};
           }
@@ -185,7 +197,6 @@ const Container = styled.fieldset<{
           }
 
           &:disabled {
-            pointer-events: none;
             background: transparent;
           }
 
@@ -200,7 +211,8 @@ const Container = styled.fieldset<{
           box-shadow: var(--box-shadow);
           border: 1px solid ${color(ButtonVariant.error, 600)};
 
-          & > button,
+          & > div > button,
+          > div > img,
           > a {
             color: white;
           }
@@ -214,13 +226,16 @@ const Container = styled.fieldset<{
           }
 
           &:disabled {
-            pointer-events: none;
             background: ${color(ButtonVariant.error, 200)};
             border: 1px solid ${color(ButtonVariant.error, 200)};
           }
         `;
     }
   }}
+`;
+
+const Icon = styled.img`
+  height: 1em;
 `;
 
 const Button = styled.button`
@@ -241,24 +256,91 @@ const Button = styled.button`
   }
 `;
 
+const ButtonContent = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+`;
+
 type ButtonProps = {
-  children: React.ReactNode;
   onClick: MouseEventHandler;
+  label: string;
+  icon: IconOptions;
+  iconSrc?: string | undefined;
   size?: ButtonSize;
   variant?: ButtonVariant;
   isDisabled?: boolean;
 };
 
 export function ProLogButton({
-  children,
   onClick,
+  label,
+  icon = IconOptions.none,
+  iconSrc = undefined,
   size = ButtonSize.md,
   variant = ButtonVariant.primary,
   isDisabled = false,
 }: ButtonProps): JSX.Element {
   return (
     <Container size={size} variant={variant} disabled={isDisabled}>
-      <Button onMouseUp={onClick}>{children}</Button>
+      <ButtonContent>
+        {icon === IconOptions.only && (
+          <Icon src={iconSrc} alt={`${label} icon`} />
+        )}
+        {icon !== IconOptions.only && icon === IconOptions.left && (
+          <Icon src={iconSrc} alt={`${label} icon`} />
+        )}
+        {icon !== IconOptions.only && (
+          <Button onClick={onClick}>{label}</Button>
+        )}
+        {icon !== IconOptions.only && icon === IconOptions.right && (
+          <Icon src={iconSrc} alt={`${label} icon`} />
+        )}
+      </ButtonContent>
+    </Container>
+  );
+}
+
+const Anchor = styled(Link)`
+  cursor: pointer;
+  // remove default Link styles
+  border: none;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  line-height: normal;
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+  -webkit-appearance: none;
+
+  &::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+  }
+`;
+
+type AnchorProps = {
+  children: React.ReactNode;
+  href: string;
+  onClick?: MouseEventHandler;
+  size?: ButtonSize;
+  variant?: ButtonVariant;
+  isDisabled?: boolean;
+};
+
+export function ProLogAnchor({
+  children,
+  href,
+  onClick,
+  size = ButtonSize.md,
+  variant = ButtonVariant.primary,
+  isDisabled = false,
+}: AnchorProps): JSX.Element {
+  return (
+    <Container size={size} variant={variant} disabled={isDisabled}>
+      <Anchor href={href} onMouseUp={onClick}>
+        {children}
+      </Anchor>
     </Container>
   );
 }
