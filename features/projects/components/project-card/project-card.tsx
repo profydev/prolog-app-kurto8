@@ -6,7 +6,7 @@ import { color, displayFont, space, textFont } from "@styles/theme";
 import { Routes } from "@config/routes";
 import { ProjectStatus } from "@api/projects.types";
 import { Project } from "@api/projects.types";
-import ProjectsViewModel from "viewModals/projectsViewModel";
+import ProjectsViewModel from "@viewModels/projectsViewModel";
 
 export function ProjectCard({ project }: ProjectCardProps) {
   const { name, language, numIssues, numEvents24h } = project;
