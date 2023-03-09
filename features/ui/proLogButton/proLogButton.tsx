@@ -77,8 +77,8 @@ const Container = styled.fieldset<{
           box-shadow: var(--box-shadow);
           border: 1px solid ${color(ButtonVariant.primary, 600)};
 
-          & > div > button,
-          > div > img,
+          & > button,
+          > img,
           > a {
             color: white;
           }
@@ -96,14 +96,15 @@ const Container = styled.fieldset<{
             border: 1px solid ${color(ButtonVariant.primary, 200)};
           }
         `;
+
       case ButtonVariant.secondary:
         return css`
           background: ${color(ButtonVariant.primary, 50)};
           box-shadow: var(--box-shadow);
           border: 1px solid ${color(ButtonVariant.primary, 50)};
 
-          & > div > button,
-          > div > img,
+          & > button,
+          > img,
           > a {
             color: ${color(ButtonVariant.primary, 700)};
           }
@@ -126,14 +127,15 @@ const Container = styled.fieldset<{
             color: ${color(ButtonVariant.primary, 300)};
           }
         `;
+
       case ButtonVariant.gray:
         return css`
           background: white;
           box-shadow: var(--box-shadow);
           border: 1px solid ${color(ButtonVariant.gray, 300)};
 
-          & > div > button,
-          > div > img,
+          & > button,
+          > img,
           > a {
             color: ${color(ButtonVariant.gray, 700)};
           }
@@ -156,13 +158,14 @@ const Container = styled.fieldset<{
             color: ${color(ButtonVariant.gray, 300)};
           }
         `;
+
       case ButtonVariant.empty:
         return css`
           background: transparent;
           border: none;
 
-          & > div > button,
-          > div > img,
+          & > button,
+          > img,
           > a {
             color: ${color(ButtonVariant.primary, 700)};
           }
@@ -180,13 +183,14 @@ const Container = styled.fieldset<{
             color: ${color(ButtonVariant.gray, 300)};
           }
         `;
+
       case ButtonVariant.emptyGray:
         return css`
           background: transparent;
           border: none;
 
-          & > div > button,
-          > div > img,
+          & > button,
+          > img,
           > a {
             color: ${color(ButtonVariant.gray, 500)};
           }
@@ -205,14 +209,15 @@ const Container = styled.fieldset<{
             color: ${color(ButtonVariant.gray, 300)};
           }
         `;
+
       case ButtonVariant.error:
         return css`
           background: ${color(ButtonVariant.error, 600)};
           box-shadow: var(--box-shadow);
           border: 1px solid ${color(ButtonVariant.error, 600)};
 
-          & > div > button,
-          > div > img,
+          & > button,
+          > img,
           > a {
             color: white;
           }
@@ -256,12 +261,6 @@ const Button = styled.button`
   }
 `;
 
-const ButtonContent = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.625rem;
-`;
-
 type ButtonProps = {
   onClick: MouseEventHandler;
   label: string;
@@ -283,22 +282,20 @@ export function ProLogButton({
 }: ButtonProps): JSX.Element {
   return (
     <Container size={size} variant={variant} disabled={isDisabled}>
-      <ButtonContent>
-        {icon === IconOptions.only && (
-          <Icon src={iconSrc} alt={`${label} icon`} />
-        )}
-        {icon !== IconOptions.only && icon === IconOptions.left && (
-          <Icon src={iconSrc} alt={`${label} icon`} />
-        )}
-        {icon !== IconOptions.only && (
-          <Button onClick={onClick} aria-label={label}>
-            {label}
-          </Button>
-        )}
-        {icon !== IconOptions.only && icon === IconOptions.right && (
-          <Icon src={iconSrc} alt={`${label} icon`} />
-        )}
-      </ButtonContent>
+      {icon === IconOptions.only && (
+        <Icon src={iconSrc} alt={`${label} icon`} />
+      )}
+      {icon !== IconOptions.only && icon === IconOptions.left && (
+        <Icon src={iconSrc} alt={`${label} icon`} />
+      )}
+      {icon !== IconOptions.only && (
+        <Button onClick={onClick} aria-label={label}>
+          {label}
+        </Button>
+      )}
+      {icon !== IconOptions.only && icon === IconOptions.right && (
+        <Icon src={iconSrc} alt={`${label} icon`} />
+      )}
     </Container>
   );
 }
@@ -306,19 +303,7 @@ export function ProLogButton({
 const Anchor = styled(Link)`
   cursor: pointer;
   // remove default Link styles
-  border: none;
-  margin: 0;
-  padding: 0;
   text-decoration: none;
-  line-height: normal;
-  -webkit-font-smoothing: inherit;
-  -moz-osx-font-smoothing: inherit;
-  -webkit-appearance: none;
-
-  &::-moz-focus-inner {
-    border: 0;
-    padding: 0;
-  }
 `;
 
 type AnchorProps = {
