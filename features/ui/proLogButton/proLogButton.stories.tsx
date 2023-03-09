@@ -1,6 +1,6 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { ProLogButton, ButtonSize, ButtonVariant } from "./button";
+import { ProLogButton, ButtonSize, ButtonVariant } from "./proLogButton";
 
 export default {
   title: "UI/ProLogButton",

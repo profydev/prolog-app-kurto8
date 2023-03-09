@@ -1,6 +1,6 @@
 import React from "react";
-import { ProLogButton } from "@features/ui";
 import { ListItem, Anchor, Icon } from "./menu-item-link";
+import { Button } from "@features/ui";
 
 type MenuItemProps = {
   className?: string;
@@ -19,7 +19,7 @@ export function MenuItemButton({
 }: MenuItemProps) {
   return (
     <ListItem className={className}>
-      <Anchor as={ProLogButton} onClick={onClick}>
+      <Anchor as={Button} onClick={onClick}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <Icon src={iconSrc} alt={`${text} icon`} /> {!isCollapsed && text}
       </Anchor>
