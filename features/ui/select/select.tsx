@@ -1,74 +1,96 @@
 import React, { useState } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { color, textFont, space } from "@styles/theme";
 
-export enum SelectVariant {
-  primary = "primary",
-  secondary = "secondary",
-  gray = "gray",
-  empty = "empty",
-  emptyGray = "emptyGray",
-  error = "error",
-}
+const MainCoontainer = styled.div`
+  width: 20rem;
+`;
 
-const MainCoontainer = styled.div``;
+const Label = styled.label`
+  ${textFont("sm", "medium")};
+  color: ${color("gray", 700)};
 
-const SelectContainer = styled.fieldset<{
-  variant: SelectVariant;
+  &.error {
+    color: ${color("error", 500)};
+  }
+`;
+
+const SelectContainer = styled.button<{
   disabled: boolean;
+  noSelectionMade: boolean;
+  errorMessage: string;
 }>`
+  all: unset;
   cursor: pointer;
+  position: relative;
   display: flex;
   align-items: center;
+  width: 100%;
+  margin: 0.375rem 0;
   padding: 0.625rem 0.875rem;
   gap: ${space(2)};
-  width: 20rem;
   border-radius: ${space(2)};
   background: white;
-  border: 1px solid ${color(SelectVariant.gray, 300)};
+  ${textFont("md", "regular")};
+  color: ${(props) =>
+    props.noSelectionMade ? color("gray", 500) : color("gray", 900)};
+  border: 1px solid
+    ${(props) =>
+      props.errorMessage ? color("error", 300) : color("gray", 300)};
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
 
   & > img {
-    color: ${color(SelectVariant.gray, 500)};
-  }
-
-  & > options {
-    color: ${color(SelectVariant.gray, 900)};
-  }
-
-  & > options:first-of-type {
-    color: ${color(SelectVariant.gray, 500)};
+    color: ${color("gray", 500)};
   }
 
   &:focus {
-    border: 1px solid ${color(SelectVariant.primary, 300)};
-    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #f4ebff;
+    border: 1px solid
+      ${(props) =>
+        props.errorMessage ? color("error", 300) : color("primary", 300)};
+    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05),
+      0px 0px 0px 4px
+        ${(props) =>
+          props.errorMessage ? color("error", 100) : color("primary", 100)};
   }
 
   &:disabled {
     pointer-events: none;
-    background: ${color(SelectVariant.primary, 200)};
-    border: 1px solid ${color(SelectVariant.primary, 200)};
+    background: ${color("gray", 50)};
   }
 `;
 
-const Icon = styled.img`
-  height: 1em;
-`;
+const Icon = styled.img``;
 
-const SelectStyles = styled.select`
-  cursor: pointer;
+const SelectedValue = styled.div`
   flex: 1;
+`;
 
-  &:focus {
-    outline: none;
-  }
-  // remove default select styles
-  border: none;
-  margin: 0;
-  padding: 0;
-  background: transparent;
-  line-height: normal;
+const DropDownMenu = styled.div<{ isVisible: boolean }>`
+  cursor: pointer;
+  position: absolute;
+  padding: ${space(1, 0)};
+  display: ${(props) => (props.isVisible ? "flex" : "none")};
+  flex-direction: column;
+  background-color: white;
+  border-radius: ${space(2)};
+  box-shadow: 0px 12px 16px -4px rgba(16, 24, 40, 0.1),
+    0px 4px 6px -2px rgba(16, 24, 40, 0.05);
+  z-index: 1;
+`;
+
+const AnchorContainer = styled.div<{ isSelected: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 20rem;
+  padding: 0.625rem 0.875rem;
+  background: ${(props) => (props.isSelected ? color("primary", 25) : "white")};
+`;
+
+const Anchor = styled.a`
+  text-decoration: none;
+  ${textFont("md", "regular")};
+  color: ${color("gray", 900)};
 `;
 
 interface SelectProps {
@@ -77,52 +99,71 @@ interface SelectProps {
   iconSrc?: string | undefined;
   label?: string | undefined;
   hint?: string | undefined;
-  variant?: SelectVariant;
   isDisabled?: boolean;
+  errorMessage?: string;
 }
 
-export function SelectPL({
+export function Select({
   placeholder,
   selectItems,
   iconSrc = undefined,
   label = undefined,
   hint = undefined,
-  variant = SelectVariant.primary,
   isDisabled = false,
+  errorMessage = "",
 }: SelectProps) {
   const [value, setValue] = useState(placeholder);
+  const [dropDownVisible, setDropDownVisible] = useState(false);
 
   const itemsList = selectItems.map((item) => {
     return (
-      <option key={item} value={item}>
-        {item}
-      </option>
+      <AnchorContainer
+        key={item}
+        onClick={() => {
+          setValue(item);
+          setDropDownVisible(false);
+        }}
+        isSelected={value === item}
+      >
+        <Anchor href="#">{item}</Anchor>
+        {item === value && <Icon src="/icons/check-mark.svg" />}
+      </AnchorContainer>
     );
   });
 
-  // const selectedItemsWithPlaceholder = selectItems.splice(0, 0, placeholder).map(item => {
-  //   return { value: item, icon: <Icon src={iconSrc}/>}
-  // })
-
   return (
     <MainCoontainer>
-      {label && <label htmlFor="select">{label}</label>}
-      <SelectContainer variant={variant} disabled={isDisabled}>
-        {/* <option value={placeholder}>{placeholder}</option>
-        {itemsList} */}
+      {label && <Label htmlFor="select">{label}</Label>}
+      <SelectContainer
+        onClick={() => setDropDownVisible(!dropDownVisible)}
+        disabled={isDisabled && !errorMessage}
+        noSelectionMade={value === placeholder}
+        errorMessage={errorMessage}
+      >
         {iconSrc && <Icon src={iconSrc} />}
-        <SelectStyles
-          name="select"
-          id="select"
-          onChange={(e) => setValue(e.target.value)}
-          value={value}
-        >
-          <option value={placeholder}>{placeholder}</option>
-          {itemsList}
-        </SelectStyles>
-        {/* <Icon src="/icons/chevron-down.svg"/> */}
+        <SelectedValue>{value}</SelectedValue>
+        <Icon src="/icons/chevron-down.svg" />
       </SelectContainer>
-      {hint && <label>{hint}</label>}
+      <DropDownMenu isVisible={dropDownVisible}>
+        <AnchorContainer
+          onClick={() => {
+            setValue(placeholder);
+            setDropDownVisible(false);
+          }}
+          isSelected={value === placeholder}
+        >
+          <Anchor href="#">Clear Selection</Anchor>
+          {value === placeholder && <Icon src="/icons/check-mark.svg" />}
+        </AnchorContainer>
+        {itemsList}
+      </DropDownMenu>
+      {errorMessage ? (
+        <Label className="error" htmlFor="error message">
+          {errorMessage}
+        </Label>
+      ) : (
+        <Label htmlFor="error message">{hint}</Label>
+      )}
     </MainCoontainer>
   );
 }

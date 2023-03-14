@@ -1,34 +1,34 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { SelectPL, SelectVariant } from "./select";
+import { Select } from "./select";
 
 export default {
-  title: "UI/SelectPL",
-  component: SelectPL,
+  title: "UI/Select",
+  component: Select,
   parameters: {
     // More on Story layout: https://storybook.js.org/docs/react/configure/story-layout
     layout: "fullscreen",
   },
-} as ComponentMeta<typeof SelectPL>;
+} as ComponentMeta<typeof Select>;
 
-const Template: ComponentStory<typeof SelectPL> = ({
+const Template: ComponentStory<typeof Select> = ({
   placeholder,
   selectItems,
   iconSrc,
   label,
   hint,
-  variant,
   isDisabled,
+  errorMessage,
 }) => (
   <div style={{ padding: 50 }}>
-    <SelectPL
+    <Select
       placeholder={placeholder}
       selectItems={selectItems}
       iconSrc={iconSrc}
       label={label}
       hint={hint}
-      variant={variant}
       isDisabled={isDisabled}
+      errorMessage={errorMessage}
     />
   </div>
 );
@@ -48,8 +48,8 @@ Default.args = {
   iconSrc: "/icons/users.svg",
   label: "Team member",
   hint: "This is a hint text to help user.",
-  variant: SelectVariant.primary,
   isDisabled: false,
+  errorMessage: "",
 };
 Default.parameters = {
   viewMode: "docs",
