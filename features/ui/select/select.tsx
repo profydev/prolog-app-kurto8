@@ -15,6 +15,16 @@ const Label = styled.label`
   }
 `;
 
+const Icon = styled.img`
+  &.rotate-180 {
+    transform: rotate(180deg);
+  }
+`;
+
+const SelectedValue = styled.div`
+  flex: 1;
+`;
+
 const SelectContainer = styled.button<{
   disabled: boolean;
   noSelectionMade: boolean;
@@ -59,14 +69,19 @@ const SelectContainer = styled.button<{
   }
 `;
 
-const Icon = styled.img`
-  &.rotate-180 {
-    transform: rotate(180deg);
-  }
+const Anchor = styled.a`
+  text-decoration: none;
+  ${textFont("md", "regular")};
+  color: ${color("gray", 900)};
 `;
 
-const SelectedValue = styled.div`
-  flex: 1;
+const AnchorContainer = styled.div<{ isSelected: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 20rem;
+  padding: 0.625rem 0.875rem;
+  background: ${(props) => (props.isSelected ? color("primary", 25) : "white")};
 `;
 
 const DropDownMenu = styled.div<{ isVisible: boolean }>`
@@ -79,22 +94,10 @@ const DropDownMenu = styled.div<{ isVisible: boolean }>`
   border-radius: ${space(2)};
   box-shadow: 0px 12px 16px -4px rgba(16, 24, 40, 0.1),
     0px 4px 6px -2px rgba(16, 24, 40, 0.05);
-  z-index: 1;
-`;
 
-const AnchorContainer = styled.div<{ isSelected: boolean }>`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 20rem;
-  padding: 0.625rem 0.875rem;
-  background: ${(props) => (props.isSelected ? color("primary", 25) : "white")};
-`;
-
-const Anchor = styled.a`
-  text-decoration: none;
-  ${textFont("md", "regular")};
-  color: ${color("gray", 900)};
+  & ${AnchorContainer}:first-of-type a {
+    color: ${color("gray", 300)};
+  }
 `;
 
 interface SelectProps {
