@@ -3,7 +3,7 @@ import Head from "next/head";
 import styled from "styled-components";
 import { SidebarNavigation } from "../sidebar-navigation";
 import { color, displayFont, textFont, space, breakpoint } from "@styles/theme";
-import packageJson from "package.json";
+import packageJson from "../../../package.json";
 
 type PageContainerProps = {
   children: React.ReactNode;
