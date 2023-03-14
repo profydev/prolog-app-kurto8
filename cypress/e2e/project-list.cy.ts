@@ -6,7 +6,7 @@ describe("Project List", () => {
     cy.visit("http://localhost:3000/dashboard");
   });
 
-  describe("succesful fetching of data", () => {
+  context("desktop resolution", () => {
     beforeEach(() => {
       cy.viewport(1025, 900);
     });
@@ -17,23 +17,25 @@ describe("Project List", () => {
 
     describe("unsuccesful fetching of data", () => {
       beforeEach(() => {
-        // setup request mocks
+        // setup failed request stub
         cy.intercept("GET", "https://prolog-api.profy.dev/project", {
-          forceNetworkError: true,
+          statusCode: 500,
         })
           .as("getProjectsFailure")
           .wait(4000);
       });
 
       it("renders a error message if data is not fetched succesfully", () => {
-        cy.wait("@getProjectsFailure");
+        cy.wait("@getProjectsFailure").then((xhr) => {
+          expect(xhr.response?.statusCode).to.equal(500);
+        });
         cy.get('[data-cy="error-fetching-projects"]').should("exist");
       });
     });
 
     describe("succesful fetching of data", () => {
       beforeEach(() => {
-        // setup request mocks
+        // setup succesful request stub
         cy.intercept("GET", "https://prolog-api.profy.dev/project", {
           fixture: "projects.json",
         }).as("getProjects");
@@ -41,6 +43,7 @@ describe("Project List", () => {
 
       it("renders the projects", () => {
         cy.wait("@getProjects");
+        cy.wait(500);
 
         const languageNames = ["React", "Node.js", "Python"];
         const errorDisplayValue = ["Critical", "Warning", "Stable"];
