@@ -59,7 +59,11 @@ const SelectContainer = styled.button<{
   }
 `;
 
-const Icon = styled.img``;
+const Icon = styled.img`
+  &.rotate-180 {
+    transform: rotate(180deg);
+  }
+`;
 
 const SelectedValue = styled.div`
   flex: 1;
@@ -142,7 +146,10 @@ export function Select({
       >
         {iconSrc && <Icon src={iconSrc} />}
         <SelectedValue>{value}</SelectedValue>
-        <Icon src="/icons/chevron-down.svg" />
+        <Icon
+          className={dropDownVisible ? "rotate-180" : ""}
+          src="/icons/chevron-down.svg"
+        />
       </SelectContainer>
       <DropDownMenu isVisible={dropDownVisible}>
         <AnchorContainer
