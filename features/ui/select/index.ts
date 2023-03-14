@@ -1,1 +1,1 @@
-export { SelectPL, SelectVariant } from "./select";
+export { Select } from "./select";
