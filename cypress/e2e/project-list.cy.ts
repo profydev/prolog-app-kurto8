@@ -16,16 +16,13 @@ describe("Project List", () => {
     });
 
     describe("unsuccesful fetching of data", () => {
-      beforeEach(() => {
+      it("renders a error message if data is not fetched succesfully", () => {
         // setup failed request stub
         cy.intercept("GET", "https://prolog-api.profy.dev/project", {
           statusCode: 500,
         })
           .as("getProjectsFailure")
           .wait(4000);
-      });
-
-      it("renders a error message if data is not fetched succesfully", () => {
         cy.wait("@getProjectsFailure").then((xhr) => {
           expect(xhr.response?.statusCode).to.equal(500);
         });
@@ -34,14 +31,11 @@ describe("Project List", () => {
     });
 
     describe("succesful fetching of data", () => {
-      beforeEach(() => {
+      it("renders the projects", () => {
         // setup succesful request stub
         cy.intercept("GET", "https://prolog-api.profy.dev/project", {
           fixture: "projects.json",
         }).as("getProjects");
-      });
-
-      it("renders the projects", () => {
         cy.wait("@getProjects");
         cy.wait(500);
 
