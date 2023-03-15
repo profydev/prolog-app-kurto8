@@ -30,7 +30,7 @@ jobs:
       # verify that there are no type and build errors
       - run: npm run build
       # run tests with Cypress
-      - name: Cypress run
+      - name: cypress run --headed --browser chrome --spec 'cypress/e2e/**'
         uses: cypress-io/github-action@v4
         with:
           start: npm start
