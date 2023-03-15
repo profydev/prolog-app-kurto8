@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { color, textFont, space } from "@styles/theme";
 
 const MainCoontainer = styled.div`
-  width: 20rem;
+  min-width: 12rem;
 `;
 
 const Label = styled.label`
@@ -28,10 +28,8 @@ const InputContainer = styled.fieldset<{
 }>`
   all: unset;
   cursor: pointer;
-  position: relative;
   display: flex;
   align-items: center;
-  width: 100%;
   margin: 0.375rem 0;
   padding: 0.625rem 0.875rem;
   gap: ${space(2)};
@@ -79,7 +77,7 @@ export function Input({
   isDisabled = false,
   errorMessage = "",
 }: SelectProps) {
-  const [value, setValue] = useState(placeholder);
+  const [value, setValue] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -100,10 +98,10 @@ export function Input({
         <InputValue
           onClick={() => setIsFocused(true)}
           ref={inputRef}
-          defaultValue={placeholder}
+          placeholder={placeholder}
+          defaultValue=""
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          onFocus={() => setValue("")}
           onBlur={() => setIsFocused(false)}
         />
         {errorMessage && <Icon src="/icons/error.svg" />}

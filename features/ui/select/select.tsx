@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { color, textFont, space } from "@styles/theme";
 
 const MainCoontainer = styled.div`
-  width: 20rem;
+  min-width: 8rem;
 `;
 
 const Label = styled.label`
@@ -32,7 +32,6 @@ const SelectContainer = styled.button<{
 }>`
   all: unset;
   cursor: pointer;
-  position: relative;
   display: flex;
   align-items: center;
   width: 100%;
@@ -79,7 +78,7 @@ const AnchorContainer = styled.div<{ isSelected: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 20rem;
+  min-width: 8rem;
   padding: 0.625rem 0.875rem;
   background: ${(props) => (props.isSelected ? color("primary", 25) : "white")};
 `;
@@ -163,7 +162,6 @@ export function Select({
           isSelected={value === placeholder}
         >
           <Anchor href="#">Clear Selection</Anchor>
-          {value === placeholder && <Icon src="/icons/check-mark.svg" />}
         </AnchorContainer>
         {itemsList}
       </DropDownMenu>
