@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "prettier": "prettier --check .",
     "cypress": "cypress open",
+    "cypressCI": "cypress run --headed",
     "test": "jest --watch",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
