@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import styled from "styled-components";
 import { color, textFont, space } from "@styles/theme";
+import { capitalize } from "lodash";
 
 const MainCoontainer = styled.div`
   min-width: 8rem;
@@ -107,6 +108,7 @@ interface SelectProps {
   hint?: string | undefined;
   isDisabled?: boolean;
   errorMessage?: string;
+  setParentState?: Dispatch<SetStateAction<string>>;
 }
 
 export function Select({
@@ -117,9 +119,17 @@ export function Select({
   hint = undefined,
   isDisabled = false,
   errorMessage = "",
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  setParentState = () => {},
 }: SelectProps) {
   const [value, setValue] = useState(placeholder);
   const [dropDownVisible, setDropDownVisible] = useState(false);
+
+  // function onBlur() {
+  //   setTimeout(function(){
+  //     setDropDownVisible(false);
+  //   }, 250);
+  // }
 
   const itemsList = selectItems.map((item) => {
     return (
@@ -127,11 +137,12 @@ export function Select({
         key={item}
         onClick={() => {
           setValue(item);
+          setParentState(item);
           setDropDownVisible(false);
         }}
         isSelected={value === item}
       >
-        <Anchor href="#">{item}</Anchor>
+        <Anchor href="#">{capitalize(item)}</Anchor>
         {item === value && <Icon src="/icons/check-mark.svg" />}
       </AnchorContainer>
     );
@@ -142,6 +153,7 @@ export function Select({
       {label && <Label htmlFor="select">{label}</Label>}
       <SelectContainer
         onClick={() => setDropDownVisible(!dropDownVisible)}
+        // onBlur={() => onBlur()}
         disabled={isDisabled && !errorMessage}
         noSelectionMade={value === placeholder}
         errorMessage={errorMessage}
@@ -157,6 +169,7 @@ export function Select({
         <AnchorContainer
           onClick={() => {
             setValue(placeholder);
+            setParentState("");
             setDropDownVisible(false);
           }}
           isSelected={value === placeholder}

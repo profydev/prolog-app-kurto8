@@ -4,6 +4,8 @@ import type { NextPage } from "next";
 import styled from "styled-components";
 import { space } from "@styles/theme";
 import { Input, Select } from "@features/ui";
+import { useState } from "react";
+import { IssueLevel } from "@api/issues.types";
 
 const FilterOptions = styled.div`
   display: flex;
@@ -14,6 +16,10 @@ const FilterOptions = styled.div`
 `;
 
 const IssuesPage: NextPage = () => {
+  const [statusFilter, setStatusFilter] = useState("");
+  const [levelFilter, setLevelFilter] = useState("");
+  const [projectNameFilter, setProjectNameFilter] = useState("");
+
   return (
     <PageContainer
       title="Issues"
@@ -21,16 +27,28 @@ const IssuesPage: NextPage = () => {
     >
       <FilterOptions>
         <Select
-          placeholder="Resolution"
+          placeholder="Status"
           selectItems={["Resolved", "Unresolved"]}
+          setParentState={setStatusFilter}
         />
         <Select
           placeholder="Level"
-          selectItems={["Error", "Warning", "Info"]}
+          selectItems={[IssueLevel.error, IssueLevel.warning, IssueLevel.info]}
+          setParentState={setLevelFilter}
         />
-        <Input placeholder="Project Name" iconSrc="/icons/search.svg" />
+        <Input
+          placeholder="Project Name"
+          iconSrc="/icons/search.svg"
+          setParentState={setProjectNameFilter}
+        />
       </FilterOptions>
-      <IssueList />
+      <IssueList
+        filterOptions={{
+          status: statusFilter,
+          level: levelFilter,
+          projectName: projectNameFilter,
+        }}
+      />
     </PageContainer>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { Dispatch, SetStateAction, useRef, useState } from "react";
 import styled from "styled-components";
 import { color, textFont, space } from "@styles/theme";
 
@@ -67,6 +67,7 @@ interface SelectProps {
   hint?: string | undefined;
   isDisabled?: boolean;
   errorMessage?: string;
+  setParentState?: Dispatch<SetStateAction<string>>;
 }
 
 export function Input({
@@ -76,6 +77,8 @@ export function Input({
   hint = undefined,
   isDisabled = false,
   errorMessage = "",
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  setParentState = () => {},
 }: SelectProps) {
   const [value, setValue] = useState("");
   const [isFocused, setIsFocused] = useState(false);
@@ -99,9 +102,11 @@ export function Input({
           onClick={() => setIsFocused(true)}
           ref={inputRef}
           placeholder={placeholder}
-          defaultValue=""
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => {
+            setValue(e.target.value);
+            setParentState(e.target.value);
+          }}
           onBlur={() => setIsFocused(false)}
         />
         {errorMessage && <Icon src="/icons/error.svg" />}

@@ -61,7 +61,11 @@ const PageNumber = styled.span`
   ${textFont("sm", "medium")}
 `;
 
-export function IssueList() {
+interface IssueListProps {
+  filterOptions: Record<string, string>;
+}
+
+export function IssueList({ filterOptions }: IssueListProps) {
   const router = useRouter();
   const page = Number(router.query.page || 1);
   const navigateToPage = (newPage: number) =>
@@ -94,7 +98,21 @@ export function IssueList() {
     }),
     {} as Record<string, string>
   );
+
   const { items, meta } = issuesPage.data || {};
+  let filteredItems = items;
+
+  if (filterOptions.level) {
+    filteredItems = filteredItems.filter(
+      (item) => item.level === filterOptions.level
+    );
+  }
+
+  if (filterOptions.projectName) {
+    filteredItems = filteredItems.filter((item) =>
+      projectIdToLanguage[item.projectId].includes(filterOptions.projectName)
+    );
+  }
 
   return (
     <Container>
@@ -108,7 +126,7 @@ export function IssueList() {
           </HeaderRow>
         </thead>
         <tbody>
-          {(items || []).map((issue) => (
+          {(filteredItems || []).map((issue) => (
             <IssueRow
               key={issue.id}
               issue={issue}
