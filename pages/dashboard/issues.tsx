@@ -18,7 +18,7 @@ const FilterOptions = styled.div`
 const IssuesPage: NextPage = () => {
   const [statusFilter, setStatusFilter] = useState("");
   const [levelFilter, setLevelFilter] = useState("");
-  const [projectNameFilter, setProjectNameFilter] = useState("");
+  const [projectFilter, setProjectFilter] = useState("");
 
   return (
     <PageContainer
@@ -39,14 +39,14 @@ const IssuesPage: NextPage = () => {
         <Input
           placeholder="Project Name"
           iconSrc="/icons/search.svg"
-          setParentState={setProjectNameFilter}
+          setParentState={setProjectFilter}
         />
       </FilterOptions>
       <IssueList
         filterOptions={{
           status: statusFilter,
           level: levelFilter,
-          projectName: projectNameFilter,
+          project: projectFilter,
         }}
       />
     </PageContainer>

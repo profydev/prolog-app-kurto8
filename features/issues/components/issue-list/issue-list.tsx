@@ -65,7 +65,7 @@ interface IssueListProps {
   filterOptions: Record<string, string>;
 }
 
-export function IssueList({ filterOptions }: IssueListProps) {
+export function IssueList({ filterOptions }: IssueListProps): JSX.Element {
   const router = useRouter();
   const page = Number(router.query.page || 1);
   const navigateToPage = (newPage: number) =>
